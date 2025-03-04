@@ -7,15 +7,17 @@
 </head>
 <body>
     <h3>Agregar un nuevo paciente</h3><br>
-    <form action="/guarda_paciente" method="post">
+    <form action="/guarda_paciente" method="post" enctype="multipart/form-data">
         <label for="id">Id paciente: </label>
         <input type="text" required name="id"> {{msg}}<br>
         <label for="nom">Nombre: </label>
         <input type="text" required name="nom"><br>
         <label for="mail">Email: </label>
         <input type="email" name="mail"><br>
-        <label for="cel">Celular:</label>
-        <input type="text" required name="cel"><br><br>
+        <label for="cel">Celular: </label>
+        <input type="text" required name="cel"><br>
+        <label for="foto">Foto: </label>
+        <input required type="file" name="foto"><br><br>
         <button>Guardar</button>
     </form>
     

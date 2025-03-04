@@ -15,6 +15,7 @@
             <td>Nombre</td>
             <td>Email</td>
             <td>Celular</td>
+            <td>Foto</td>
             <td>Operaciones</td>
         </thead>
         <tbody>
@@ -24,9 +25,10 @@
                 <td>{{res[1]}}</td>
                 <td>{{res[2]}}</td>
                 <td>{{res[3]}}</td>
+                <td><img width="100" src="uploads/{{res[4]}}" alt=""></td>
                 <td>
                     <a href="/modifica_paciente/{{res[0]}}">Editar</a>
-                    <a href="/borra_paciente/{{res[0]}}">Borrar</a>
+                    <a onclick="return confirm('Seguro borra este usuario?')" href="/borra_paciente/{{res[0]}}">Borrar</a>
                 </td>
             </tr>
             {% endfor %}

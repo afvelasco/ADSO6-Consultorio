@@ -1,4 +1,6 @@
-from flask import Flask, redirect, render_template, request
+from datetime import datetime
+import os
+from flask import Flask, redirect, render_template, request, send_from_directory
 import mysql.connector
 
 programa = Flask(__name__)
@@ -7,6 +9,11 @@ mi_db = mysql.connector.connect(host="localhost",
                                 user="root",
                                 password="",
                                 database="consultorio06")
+programa.config['CARPETAU'] = os.path.join('uploads')
+
+@programa.route("/uploads/<nombre>")
+def uploads(nombre):
+    return send_from_directory(programa.config['CARPETAU'],nombre)
 
 @programa.route("/pacientes")
 def pacientes():
@@ -26,12 +33,18 @@ def guarda_paciente():
     nom = request.form["nom"]
     mail = request.form["mail"]
     cel = request.form["cel"]
+    foto = request.files["foto"]
     mi_cursor = mi_db.cursor()
     sql = f"SELECT nombre FROM pacientes WHERE id='{id}'"
     mi_cursor.execute(sql)
     resultado = mi_cursor.fetchall()
     if len(resultado)==0:
-        sql = f"INSERT INTO pacientes (id,nombre,email,celular) VALUES ('{id}','{nom}','{mail}','{cel}')"
+        ahora = datetime.now()
+        fecha = ahora.strftime("%Y%m%d%H%M%S")
+        nombre,extension = os.path.splitext(foto.filename)
+        nueva_foto = "U"+fecha+extension
+        foto.save("uploads/"+nueva_foto)
+        sql = f"INSERT INTO pacientes (id,nombre,email,celular,foto) VALUES ('{id}','{nom}','{mail}','{cel}','{nueva_foto}')"
         mi_cursor.execute(sql)
         mi_db.commit()
         return redirect("/pacientes")
@@ -58,6 +71,13 @@ def actualiza_paciente():
     mi_db.commit()
     return redirect("/pacientes")
 
+@programa.route("/borra_paciente/<id>")
+def borra_paciente(id):
+    mi_cursor = mi_db.cursor()
+    sql = f"UPDATE pacientes SET borrado=1 WHERE id='{id}'"
+    mi_cursor.execute(sql)
+    mi_db.commit()
+    return redirect("/pacientes")
 
 if __name__=="__main__":
     programa.run(debug=True, host="0.0.0.0", port=5080)
