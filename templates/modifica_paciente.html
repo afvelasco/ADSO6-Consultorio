@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Paciente existente</title>
+</head>
+<body>
+    <h3>Modificar un paciente exixtente</h3><br>
+    <form action="/actualiza_paciente" method="post">
+        <label for="id">Id paciente: </label>
+        <input type="text" value="{{paciente[0]}}" readonly name="id"><br>
+        <label for="nom">Nombre: </label>
+        <input type="text" value="{{paciente[1]}}" required name="nom"><br>
+        <label for="mail">Email: </label>
+        <input type="email" value="{{paciente[2]}}" name="mail"><br>
+        <label for="cel">Celular:</label>
+        <input type="text" value="{{paciente[3]}}" required name="cel"><br><br>
+        <button>Guardar</button>
+    </form>
+</body>
+</html>
