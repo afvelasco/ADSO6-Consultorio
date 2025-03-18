@@ -1,4 +1,5 @@
 from datetime import datetime
+import hashlib
 import os
 from flask import Flask, redirect, render_template, request, send_from_directory
 import mysql.connector
@@ -19,6 +20,20 @@ def uploads(nombre):
 def raiz():
     return render_template("index.html")
 
+@programa.route("/login", methods = ['POST'])
+def login():
+    id = request.form['id']
+    contra = request.form['contra']
+    cifrada = hashlib.sha512(contra.encode("utf-8")).hexdigest()
+    mi_cursor = mi_db.cursor()
+    sql = f"SELECT nombre FROM usuarios WHERE id='{id}' AND contra='{cifrada}'"
+    mi_cursor.execute(sql)
+    resultado=mi_cursor.fetchall()
+    if len(resultado)==0:
+        return render_template("index.html",msg="Credenciales incorrectas")
+    else:
+        return redirect("/pacientes")
+        
 @programa.route("/pacientes")
 def pacientes():
     mi_cursor = mi_db.cursor()
