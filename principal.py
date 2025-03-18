@@ -15,6 +15,10 @@ programa.config['CARPETAU'] = os.path.join('uploads')
 def uploads(nombre):
     return send_from_directory(programa.config['CARPETAU'],nombre)
 
+@programa.route("/")
+def raiz():
+    return render_template("index.html")
+
 @programa.route("/pacientes")
 def pacientes():
     mi_cursor = mi_db.cursor()
