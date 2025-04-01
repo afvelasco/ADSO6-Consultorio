@@ -1,16 +1,5 @@
-from datetime import datetime
-import hashlib
-import os
-from flask import Flask, redirect, render_template, request, send_from_directory
-import mysql.connector
-
-programa = Flask(__name__)
-mi_db = mysql.connector.connect(host="localhost",
-                                port="3306",
-                                user="root",
-                                password="",
-                                database="consultorio06")
-programa.config['CARPETAU'] = os.path.join('uploads')
+from conexion import *
+from models.pacientes import mi_pacientes
 
 @programa.route("/uploads/<nombre>")
 def uploads(nombre):
@@ -25,26 +14,40 @@ def login():
     id = request.form['id']
     contra = request.form['contra']
     cifrada = hashlib.sha512(contra.encode("utf-8")).hexdigest()
-    mi_cursor = mi_db.cursor()
     sql = f"SELECT nombre FROM usuarios WHERE id='{id}' AND contra='{cifrada}'"
     mi_cursor.execute(sql)
     resultado=mi_cursor.fetchall()
     if len(resultado)==0:
         return render_template("index.html",msg="Credenciales incorrectas")
     else:
-        return redirect("/pacientes")
+        session["login"] = True
+        session["id"] = id
+        session["nombre"] = resultado[0][0]
+        return redirect("/opciones")
+
+@programa.route("/opciones")
+def opciones():
+    if session.get("login")==True:
+        nom = session.get("nombre")
+        return render_template("opciones.html", nom=nom)
+    else:
+        return redirect("/")
         
 @programa.route("/pacientes")
 def pacientes():
-    mi_cursor = mi_db.cursor()
-    sql = "SELECT * FROM pacientes WHERE borrado=0"
-    mi_cursor.execute(sql)
-    resultado = mi_cursor.fetchall()
-    return render_template("pacientes.html",resul = resultado)
+    if session.get("login")==True:
+        resultado = mi_pacientes.consultar()
+        return render_template("pacientes.html",resul = resultado)
+    else:
+        return redirect("/")
 
 @programa.route("/agrega_paciente")
 def agrega_paciente():
-    return render_template("agrega_paciente.html")
+    if session.get("login")==True:
+        return render_template("agrega_paciente.html")
+    else:
+        return redirect("/")
+
 
 @programa.route("/guarda_paciente", methods=["POST"])
 def guarda_paciente():
@@ -72,11 +75,14 @@ def guarda_paciente():
 
 @programa.route("/modifica_paciente/<id>")
 def modifica_paciente(id):
-    mi_cursor = mi_db.cursor()
-    sql = f"SELECT * FROM pacientes WHERE id='{id}'"
-    mi_cursor.execute(sql)
-    pacientes = mi_cursor.fetchall()
-    return render_template("modifica_paciente.html", paciente=pacientes[0])
+    if session.get("login")==True:
+        mi_cursor = mi_db.cursor()
+        sql = f"SELECT * FROM pacientes WHERE id='{id}'"
+        mi_cursor.execute(sql)
+        pacientes = mi_cursor.fetchall()
+        return render_template("modifica_paciente.html", paciente=pacientes[0])
+    else:
+        return redirect("/")
 
 @programa.route("/actualiza_paciente", methods=['POST'])
 def actualiza_paciente():
@@ -92,11 +98,14 @@ def actualiza_paciente():
 
 @programa.route("/borra_paciente/<id>")
 def borra_paciente(id):
-    mi_cursor = mi_db.cursor()
-    sql = f"UPDATE pacientes SET borrado=1 WHERE id='{id}'"
-    mi_cursor.execute(sql)
-    mi_db.commit()
-    return redirect("/pacientes")
+    if session.get("login")==True:
+        mi_cursor = mi_db.cursor()
+        sql = f"UPDATE pacientes SET borrado=1 WHERE id='{id}'"
+        mi_cursor.execute(sql)
+        mi_db.commit()
+        return redirect("/pacientes")
+    else:
+        return redirect("/")
 
 if __name__=="__main__":
     programa.run(debug=True, host="0.0.0.0", port=5080)
