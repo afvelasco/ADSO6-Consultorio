@@ -7,7 +7,7 @@
 </head>
 <body>
     <h3>Modificar un paciente exixtente</h3><br>
-    <form action="/actualiza_paciente" method="post">
+    <form action="/actualiza_paciente" method="post" enctype="multipart/form-data">
         <label for="id">Id paciente: </label>
         <input type="text" value="{{paciente[0]}}" readonly name="id"><br>
         <label for="nom">Nombre: </label>
@@ -15,7 +15,9 @@
         <label for="mail">Email: </label>
         <input type="email" value="{{paciente[2]}}" name="mail"><br>
         <label for="cel">Celular:</label>
-        <input type="text" value="{{paciente[3]}}" required name="cel"><br><br>
+        <input type="text" value="{{paciente[3]}}" required name="cel"><br>
+        <label for="foto">Foto: </label>
+        <input type="file" name="foto"><br><br>
         <button>Guardar</button>
     </form>
 </body>

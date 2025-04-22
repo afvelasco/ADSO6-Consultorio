@@ -29,6 +29,7 @@
                 <td>
                     <a href="/modifica_paciente/{{res[0]}}">Editar</a>
                     <a onclick="return confirm('Seguro borra este usuario?')" href="/borra_paciente/{{res[0]}}">Borrar</a>
+                    <a href="/envia_mail/{{res[0]}}">Enviar Email</a>
                 </td>
             </tr>
             {% endfor %}
