@@ -46,28 +46,23 @@ class Pacientes:
         paciente = mi_pacientes.buscar(id)
         nombre = paciente[0][1]
         destinatario = paciente[0][2]
+        asunto = "Prueba desde Python"
+        cuerpo = f"Mensaje para {nombre}, enviado como una prueba desde python"
         remitente = "adso06-cab@outlook.com"
-        mensaje = MIMEMultipart()
-        mensaje['From'] = remitente
-        mensaje['To'] = ', '.join(destinatario)
-        mensaje['Subject'] = "Prueba de email desde python"
-        cuerpo = f"Hola {nombre}, este es un mensaje de prueba desde python"
-        mensaje.attach(MIMEText(cuerpo, 'plain'))
-        usuario = 'adso06-cab@outlook.com'
-        password = 'C4b-S3n4-4ds0oG'
-        with smtplib.SMTP('smtp-mail.outlook.com', 587) as smtp_server:
-            smtp_server.ehlo()  # Puede omitirse
-            smtp_server.starttls()  # Asegura la conexión
-            smtp_server.ehlo()  # Puede omitirse
-            smtp_server.login(usuario, password)
-            smtp_server.sendmail(remitente, destinatario, mensaje.as_string())
-#        server = smtplib.SMTP('smtp-mail.outlook.com',587)
-#        server.ehlo()
-#        server.starttls()
-#        server.ehlo
-#        server.login(usuario,password)
-#        server.sendmail(remitente,destinatario,mensaje.as_string())
-#        server.quit()
+        password = "C4b-S3n4-4ds0oG"
+        msg = MIMEMultipart()
+        msg['Subject'] = asunto
+        msg['From'] = remitente
+        msg['To'] = ', '.join(destinatario)
+        msg.attach(MIMEText(cuerpo, 'plain'))
+        servidor = smtplib.SMTP('live.smtp.mailtrap.io', 587)
+        servidor.ehlo()
+        servidor.starttls()
+        servidor.ehlo()
+        servidor.login(remitente, password)
+        servidor.send_message(msg)
+        servidor.quit()
+        print("¡Mensaje enviado!")
         return True
 
 mi_pacientes = Pacientes()
