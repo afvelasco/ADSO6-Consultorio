@@ -1,5 +1,6 @@
 from conexion import *
 import routes.pacientes
+import routes.usuarios
 
 @programa.route("/uploads/<nombre>")
 def uploads(nombre):
@@ -8,22 +9,6 @@ def uploads(nombre):
 @programa.route("/")
 def raiz():
     return render_template("index.html")
-
-@programa.route("/login", methods = ['POST'])
-def login():
-    id = request.form['id']
-    contra = request.form['contra']
-    cifrada = hashlib.sha512(contra.encode("utf-8")).hexdigest()
-    sql = f"SELECT nombre FROM usuarios WHERE id='{id}' AND contra='{cifrada}'"
-    mi_cursor.execute(sql)
-    resultado=mi_cursor.fetchall()
-    if len(resultado)==0:
-        return render_template("index.html",msg="Credenciales incorrectas")
-    else:
-        session["login"] = True
-        session["id"] = id
-        session["nombre"] = resultado[0][0]
-        return redirect("/opciones")
 
 @programa.route("/opciones")
 def opciones():
