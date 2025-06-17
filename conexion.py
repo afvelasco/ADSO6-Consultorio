@@ -14,7 +14,7 @@ mi_db = mysql.connector.connect(host="localhost",
                                 user="root",
                                 password="",
                                 database="consultorio06")
+mi_cursor = mi_db.cursor()
 programa.config['CARPETAU'] = os.path.join('uploads')
 programa.secret_key = "LaMasSegura"
 programa.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
-mi_cursor = mi_db.cursor()
