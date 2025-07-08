@@ -52,6 +52,8 @@ class Especialista(Resource):
         esp = mi_cursor.fetchall()
         if len(esp)>0:
             sql = f"UPDATE especialistas SET nombre='{esp[1]}', especialidad='{esp[2]}', foto='{esp[3]}' WHERE id_especialista='{esp[0]}'"
+            mi_cursor.execute(sql)
+            mi_DB.commit()
             return jsonify({"mensaje":"Especalista actualizado"})
         else:
             return jsonify({"mensaje":"Especialista no encontrado"})

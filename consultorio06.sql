@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-05-2025 a las 03:54:44
+-- Tiempo de generación: 08-07-2025 a las 04:25:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,33 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `consultorio06`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `especialistas`
+--
+
+CREATE TABLE `especialistas` (
+  `id_especialista` varchar(15) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `especialidad` varchar(25) NOT NULL,
+  `foto` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `especialistas`
+--
+
+INSERT INTO `especialistas` (`id_especialista`, `nombre`, `especialidad`, `foto`) VALUES
+('1006', 'Robles', 'Medico General', ''),
+('1112', 'Mauricio Uriel ', 'Medico General', ''),
+('1458', 'Rogelia Montoya Gonzales', 'Cardiologa', ''),
+('152634', 'Jacinto Perez', 'General', ''),
+('161616', 'Sandro Jimenez', 'Cirujano', ''),
+('1649162648', 'uribe-chan', 'preso', ''),
+('313131', 'María Paez', 'Urologa', ''),
+('9876', 'Velasco', 'Cirujano', '');
 
 -- --------------------------------------------------------
 
@@ -103,9 +130,21 @@ INSERT INTO `usuarios` (`id`, `nombre`, `contra`, `rol`, `borrado`) VALUES
 --
 
 --
+-- Indices de la tabla `especialistas`
+--
+ALTER TABLE `especialistas`
+  ADD PRIMARY KEY (`id_especialista`);
+
+--
 -- Indices de la tabla `pacientes`
 --
 ALTER TABLE `pacientes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 COMMIT;
 
