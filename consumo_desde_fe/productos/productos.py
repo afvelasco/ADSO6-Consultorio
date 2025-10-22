@@ -55,4 +55,4 @@ def eliminar_producto(id):
 
 if __name__ == '__main__':
     # Este servicio debe correr en un puerto diferente al de Usuarios
-    app.run(port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
