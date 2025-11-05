@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-07-2025 a las 04:25:24
+-- Tiempo de generación: 05-11-2025 a las 01:46:58
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `consultorio06`
 --
-
+CREATE DATABASE IF NOT EXISTS consultorio06;
+USE consultorio06;
 -- --------------------------------------------------------
 
 --

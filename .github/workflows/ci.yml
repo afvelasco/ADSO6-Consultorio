@@ -20,6 +20,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.13'
+      - name: Install MySQL Server
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mysql-server
+          sudo systemctl start mysql
+
+      - name: Install Database Schema and Database
+        run: |
+          mysql -u root < consultorio06.sql
 
       - name: Install dependencies
         run: |
