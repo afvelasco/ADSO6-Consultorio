@@ -21,16 +21,16 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install MySQL Server
+      - name: Install MySQL Server ans Set Password
         run: |
           sudo apt-get update
-          sudo apt-get install -y mysql-server
-          sudo systemctl start mysql
+          sudo apt-get install -y mysql-server mysql-client
+          sudo service mysql start
+          sudo  mysqladmin -u root password 'ci_password'
 
       - name: Install Database Schema and Database
         run: |
-          sudo service mysql start
-          sudo mysql -u root < consultorio06.sql
+          sudo mysql -u root -p ci_password < consultorio06.sql
 
       - name: Install dependencies
         run: |
