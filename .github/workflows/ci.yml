@@ -26,7 +26,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mysql-server mysql-client
           sudo service mysql start
-          sudo  mysqladmin -u root password 'ci_password'
+          sudo  mysqladmin -u root -p 'ci_password'
 
       - name: Install Database Schema and Database
         run: |
