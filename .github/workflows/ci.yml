@@ -30,7 +30,7 @@ jobs:
 
       - name: Install Database Schema and Database
         run: |
-          sudo mysql -u root -p ci_password < consultorio06.sql
+          sudo mysql -u root -p 'ci_password' < consultorio06.sql
 
       - name: Install dependencies
         run: |
